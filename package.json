@@ -27,11 +27,11 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/shuruhatik/hawiah.git"
+    "url": "https://github.com/Shuruhatik/hawiah-drivers.git"
   },
-  "homepage": "https://github.com/shuruhatik/hawiah#readme",
+  "homepage": "https://github.com/Shuruhatik/hawiah-drivers#readme",
   "bugs": {
-    "url": "https://github.com/shuruhatik/hawiah/issues"
+    "url": "https://github.com/Shuruhatik/hawiah-drivers/issues"
   },
   "files": [
     "dist",
