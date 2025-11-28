@@ -1,6 +1,6 @@
 {
   "name": "@hawiah/drivers",
-  "version": "0.1.1",
+  "version": "0.1.0",
   "description": "Database drivers for Hawiah",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
