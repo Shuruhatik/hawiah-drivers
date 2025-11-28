@@ -1,5 +1,6 @@
 import * as fs from 'fs/promises';
 import * as path from 'path';
+import { Writer } from 'writerx';
 import { IDriver, Query, Data } from '../interfaces/IDriver';
 
 /**
@@ -8,7 +9,7 @@ import { IDriver, Query, Data } from '../interfaces/IDriver';
  */
 export class JSONDriver implements IDriver {
   private records: Data[] = [];
-  private filePath: string;
+  private writer: Writer;
   private autoSave: boolean;
 
   /**
@@ -17,7 +18,8 @@ export class JSONDriver implements IDriver {
    * @param autoSave - Whether to automatically save changes to disk (default: true)
    */
   constructor(filePath: string, autoSave: boolean = true) {
-    this.filePath = path.resolve(filePath);
+    const resolvedPath = path.resolve(filePath);
+    this.writer = new Writer(resolvedPath);
     this.autoSave = autoSave;
   }
 
@@ -28,10 +30,10 @@ export class JSONDriver implements IDriver {
    */
   async connect(): Promise<void> {
     try {
-      const dir = path.dirname(this.filePath);
+      const dir = path.dirname(this.writer.path.toString());
       await fs.mkdir(dir, { recursive: true });
 
-      const fileContent = await fs.readFile(this.filePath, 'utf-8');
+      const fileContent = await fs.readFile(this.writer.path, 'utf-8');
       const parsed = JSON.parse(fileContent);
 
       if (Array.isArray(parsed)) {
@@ -170,7 +172,7 @@ export class JSONDriver implements IDriver {
    */
   async persist(): Promise<void> {
     const content = JSON.stringify(this.records, null, 2);
-    await fs.writeFile(this.filePath, content, 'utf-8');
+    await this.writer.write(content);
   }
 
   /**

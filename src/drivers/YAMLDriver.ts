@@ -1,6 +1,7 @@
 import * as fs from 'fs';
 import * as path from 'path';
 import * as yaml from 'js-yaml';
+import { Writer } from 'writerx';
 import { IDriver, Query, Data } from '../interfaces/IDriver';
 
 /**
@@ -30,6 +31,7 @@ export interface YAMLDriverOptions {
  */
 export class YAMLDriver implements IDriver {
     private filename: string;
+    private writer: Writer;
     private autoSave: boolean;
     private yamlOptions: yaml.DumpOptions;
     private data: Data[];
@@ -41,6 +43,7 @@ export class YAMLDriver implements IDriver {
      */
     constructor(options: YAMLDriverOptions) {
         this.filename = options.filename;
+        this.writer = new Writer(this.filename);
         this.autoSave = options.autoSave !== undefined ? options.autoSave : true;
         this.yamlOptions = options.yamlOptions || {
             indent: 2,
@@ -71,7 +74,7 @@ export class YAMLDriver implements IDriver {
             }
         } else {
             this.data = [];
-            this.saveToFile();
+            await this.saveToFile();
         }
 
         this.isConnected = true;
@@ -83,7 +86,7 @@ export class YAMLDriver implements IDriver {
      */
     async disconnect(): Promise<void> {
         if (this.autoSave) {
-            this.saveToFile();
+            await this.saveToFile();
         }
         this.isConnected = false;
     }
@@ -92,9 +95,9 @@ export class YAMLDriver implements IDriver {
      * Saves the data to the YAML file.
      * @private
      */
-    private saveToFile(): void {
+    private async saveToFile(): Promise<void> {
         const yamlStr = yaml.dump(this.data, this.yamlOptions);
-        fs.writeFileSync(this.filename, yamlStr, 'utf8');
+        await this.writer.write(yamlStr);
     }
 
     /**
@@ -116,7 +119,7 @@ export class YAMLDriver implements IDriver {
         this.data.push(record);
 
         if (this.autoSave) {
-            this.saveToFile();
+            await this.saveToFile();
         }
 
         return record;
@@ -173,7 +176,7 @@ export class YAMLDriver implements IDriver {
         }
 
         if (count > 0 && this.autoSave) {
-            this.saveToFile();
+            await this.saveToFile();
         }
 
         return count;
@@ -192,7 +195,7 @@ export class YAMLDriver implements IDriver {
         const count = beforeLength - this.data.length;
 
         if (count > 0 && this.autoSave) {
-            this.saveToFile();
+            await this.saveToFile();
         }
 
         return count;
@@ -274,7 +277,7 @@ export class YAMLDriver implements IDriver {
      */
     async save(): Promise<void> {
         this.ensureConnected();
-        this.saveToFile();
+        await this.saveToFile();
     }
 
     /**
@@ -283,7 +286,7 @@ export class YAMLDriver implements IDriver {
     async clear(): Promise<void> {
         this.ensureConnected();
         this.data = [];
-        this.saveToFile();
+        await this.saveToFile();
     }
 
     /**
