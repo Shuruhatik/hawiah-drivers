@@ -1,0 +1,57 @@
+{
+  "name": "@hawiah/drivers",
+  "version": "0.1.0",
+  "description": "Database drivers for Hawiah",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "test": "node test/example.js"
+  },
+  "keywords": [
+    "database",
+    "schema-less",
+    "driver",
+    "abstraction",
+    "sqlite",
+    "mongodb",
+    "mysql",
+    "postgresql",
+    "firebase",
+    "orm",
+    "query-builder"
+  ],
+  "author": "",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/shuruhatik/hawiah.git"
+  },
+  "homepage": "https://github.com/shuruhatik/hawiah#readme",
+  "bugs": {
+    "url": "https://github.com/shuruhatik/hawiah/issues"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "INSTALLATION.md",
+    "LICENSE"
+  ],
+  "dependencies": {
+    "better-sqlite3": "^12.4.6",
+    "firebase": "^12.6.0",
+    "js-yaml": "^4.1.1",
+    "mongodb": "^7.0.0",
+    "mysql2": "^3.15.3",
+    "pg": "^8.16.3"
+  },
+  "devDependencies": {
+    "@types/better-sqlite3": "^7.6.13",
+    "@types/js-yaml": "^4.0.9",
+    "@types/mysql": "^2.15.27",
+    "@types/node": "^20.0.0",
+    "@types/pg": "^8.11.10",
+    "typescript": "^5.0.0"
+  }
+}
