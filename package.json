@@ -1,6 +1,6 @@
 {
   "name": "@hawiah/drivers",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "High-performance database drivers collection for Hawiah framework - supports JSON, YAML, SQLite, MongoDB, MySQL, PostgreSQL, Firebase with writerx atomic writes",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
